@@ -1,43 +1,45 @@
 import numpy as np
 import nltk
+import unicodedata
 # nltk.download('punkt')
 from nltk.stem.porter import PorterStemmer
 stemmer = PorterStemmer()
 
+def remove_acentos(texto):
+    """
+    Remove acentos de um texto usando unicodedata.
+    Exemplo: 'Olá Café' -> 'Ola Cafe'
+    """
+    return ''.join(
+        c for c in unicodedata.normalize('NFD', texto)
+        if unicodedata.category(c) != 'Mn'
+    )
+
 def tokenize(sentence):
     """
-    split sentence into array of words/tokens
-    a token can be a word or punctuation character, or number
+    Normaliza a frase (minúsculo + sem acento) e divide em tokens.
     """
+    sentence = remove_acentos(sentence.lower())
     return nltk.word_tokenize(sentence)
-
 
 def stem(word):
     """
-    stemming = find the root form of the word
-    examples:
-    words = ["organize", "organizes", "organizing"]
-    words = [stem(w) for w in words]
-    -> ["organ", "organ", "organ"]
+    Reduz a palavra à sua raiz (stemming).
+    Exemplo: 'organizing' -> 'organ'
     """
     return stemmer.stem(word.lower())
 
-
 def bag_of_words(tokenized_sentence, words):
     """
-    return bag of words array:
-    1 for each known word that exists in the sentence, 0 otherwise
-    example:
-    sentence = ["hello", "how", "are", "you"]
-    words = ["hi", "hello", "I", "you", "bye", "thank", "cool"]
-    bog   = [  0 ,    1 ,    0 ,   1 ,    0 ,    0 ,      0]
+    Cria um vetor binário (bag of words):
+    - 1 se a palavra conhecida aparece na frase
+    - 0 caso contrário
     """
-    # stem each word
+    # aplica stemming em cada palavra da frase
     sentence_words = [stem(word) for word in tokenized_sentence]
-    # initialize bag with 0 for each word
+    # inicializa vetor com zeros
     bag = np.zeros(len(words), dtype=np.float32)
     for idx, w in enumerate(words):
-        if w in sentence_words: 
+        if w in sentence_words:
             bag[idx] = 1
-
     return bag

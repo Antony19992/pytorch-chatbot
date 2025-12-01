@@ -1,83 +1,104 @@
 {
   "intents": [
     {
-      "tag": "greeting",
+      "tag": "saudacao",
       "patterns": [
-        "Hi",
-        "Hey",
-        "How are you",
-        "Is anyone there?",
-        "Hello",
-        "Good day"
+        "Oi",
+        "Olá",
+        "Bom dia",
+        "Boa tarde",
+        "Boa noite",
+        "Tudo bem?"
       ],
       "responses": [
-        "Hey :-)",
-        "Hello, thanks for visiting",
-        "Hi there, what can I do for you?",
-        "Hi there, how can I help?"
+        "Olá, seja bem-vindo à Beijo Rosado!",
+        "Oi, que bom ter você aqui na Beijo Rosado!",
+        "Bem-vindo à confeitaria Beijo Rosado, como posso ajudar?"
       ]
     },
     {
-      "tag": "goodbye",
-      "patterns": ["Bye", "See you later", "Goodbye"],
+      "tag": "despedida",
+      "patterns": [
+        "Tchau",
+        "Até mais",
+        "Até logo",
+        "Falou",
+        "Adeus"
+      ],
       "responses": [
-        "See you later, thanks for visiting",
-        "Have a nice day",
-        "Bye! Come back again soon."
+        "Até mais, volte sempre à Beijo Rosado!",
+        "Obrigada pela visita, tenha um ótimo dia!",
+        "Tchau, esperamos você novamente em breve!"
       ]
     },
     {
-      "tag": "thanks",
-      "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
-      "responses": ["Happy to help!", "Any time!", "My pleasure"]
-    },
-    {
-      "tag": "items",
+      "tag": "agradecimento",
       "patterns": [
-        "Which items do you have?",
-        "What kinds of items are there?",
-        "What do you sell?"
+        "Obrigado",
+        "Obrigada",
+        "Valeu",
+        "Muito obrigado",
+        "Agradeço"
       ],
       "responses": [
-        "We sell coffee and tea",
-        "We have coffee and tea"
+        "Nós que agradecemos!",
+        "Sempre à disposição!",
+        "É um prazer atender você na Beijo Rosado!"
       ]
     },
     {
-      "tag": "payments",
+      "tag": "cardapio",
       "patterns": [
-        "Do you take credit cards?",
-        "Do you accept Mastercard?",
-        "Can I pay with Paypal?",
-        "Are you cash only?"
+        "Quais produtos vocês têm?",
+        "O que vocês vendem?",
+        "Quais opções de doces?",
+        "Vocês têm salgados?",
+        "Quais bolos estão disponíveis?"
       ],
       "responses": [
-        "We accept VISA, Mastercard and Paypal",
-        "We accept most major credit cards, and Paypal"
+        "Na Beijo Rosado temos uma variedade de salgados, doces e bolos personalizados.",
+        "Vendemos coxinhas, brigadeiros, cupcakes e bolos sob encomenda.",
+        "Nosso cardápio inclui salgados fresquinhos, doces artesanais e bolos decorados."
       ]
     },
     {
-      "tag": "delivery",
+      "tag": "pagamento",
       "patterns": [
-        "How long does delivery take?",
-        "How long does shipping take?",
-        "When do I get my delivery?"
+        "Posso pagar com cartão?",
+        "Vocês aceitam PIX?",
+        "Dá para pagar no crédito?",
+        "Quais formas de pagamento?"
       ],
       "responses": [
-        "Delivery takes 2-4 days",
-        "Shipping takes 2-4 days"
+        "Aceitamos PIX, cartão de crédito e débito.",
+        "Você pode pagar com dinheiro, cartão ou PIX.",
+        "Temos várias opções de pagamento para facilitar sua compra."
       ]
     },
     {
-      "tag": "funny",
+      "tag": "entrega",
       "patterns": [
-        "Tell me a joke!",
-        "Tell me something funny!",
-        "Do you know a joke?"
+        "Vocês entregam?",
+        "Como funciona a entrega?",
+        "Qual o prazo de entrega?",
+        "Posso pedir para entregar em casa?"
       ],
       "responses": [
-        "Why did the hipster burn his mouth? He drank the coffee before it was cool.",
-        "What did the buffalo say when his son left for college? Bison."
+        "Sim, fazemos entregas em São José dos Pinhais e região.",
+        "O prazo de entrega depende do pedido, mas geralmente é de 1 a 2 dias.",
+        "Você pode escolher retirada na loja ou entrega em domicílio."
+      ]
+    },
+    {
+      "tag": "piada",
+      "patterns": [
+        "Me conta uma piada",
+        "Me fala algo engraçado",
+        "Você sabe alguma piada?"
+      ],
+      "responses": [
+        "Por que o bolo foi ao médico? Porque estava se sentindo meio 'recheado' demais!",
+        "Qual é o doce favorito do computador? O cookie!"
       ]
     }
   ]
