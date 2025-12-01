@@ -2,50 +2,32 @@
   "intents": [
     {
       "tag": "saudacao",
-      "patterns": [
-        "Oi",
-        "Olá",
-        "Bom dia",
-        "Boa tarde",
-        "Boa noite",
-        "Tudo bem?"
-      ],
+      "patterns": ["Oi", "Olá", "Hola", "Bom dia", "Boa tarde", "Boa noite", "Tudo bem?", "Como vai?", "E aí?", "Oiii", "Oiie", "Oi docinho"],
       "responses": [
-        "Olá, seja bem-vindo à Beijo Rosado!",
-        "Oi, que bom ter você aqui na Beijo Rosado!",
-        "Bem-vindo à confeitaria Beijo Rosado, como posso ajudar?"
+        "Oiiee! Seja super bem-vindo(a) à Beijo Rosado! ✨💗",
+        "Oláaa! Que alegria te ver aqui! 🍰💖",
+        "Heey! Tudo certinho por aí? 🌸"
       ]
     },
+
     {
       "tag": "despedida",
-      "patterns": [
-        "Tchau",
-        "Até mais",
-        "Até logo",
-        "Falou",
-        "Adeus"
-      ],
+      "patterns": ["Tchau", "Até mais", "Até logo", "Falou", "Flw", "Vlw", "Adeus", "Beijos, tchau", "Até a próxima"],
       "responses": [
-        "Até mais, volte sempre à Beijo Rosado!",
-        "Obrigada pela visita, tenha um ótimo dia!",
-        "Tchau, esperamos você novamente em breve!"
+        "Tchauu! Volte sempre que bater aquela vontade de um docinho! 🍰💗",
+        "Até mais! Seu dia merece doçura! ✨🥰"
       ]
     },
+
     {
       "tag": "agradecimento",
-      "patterns": [
-        "Obrigado",
-        "Obrigada",
-        "Valeu",
-        "Muito obrigado",
-        "Agradeço"
-      ],
+      "patterns": ["Obrigado", "Obrigada", "Valeu", "Muito obrigado", "Obrigadão", "Agradeço"],
       "responses": [
-        "Nós que agradecemos!",
-        "Sempre à disposição!",
-        "É um prazer atender você na Beijo Rosado!"
+        "Awn, nós que agradecemos! 💗✨",
+        "Obrigadinho(a), docinho! 🥰🍰"
       ]
     },
+
     {
       "tag": "cardapio",
       "patterns": [
@@ -53,52 +35,108 @@
         "O que vocês vendem?",
         "Quais opções de doces?",
         "Vocês têm salgados?",
-        "Quais bolos estão disponíveis?"
+        "Tem cardápio?",
+        "Me mostra o cardápio",
+        "Quero ver os produtos"
       ],
       "responses": [
-        "Na Beijo Rosado temos uma variedade de salgados, doces e bolos personalizados.",
-        "Vendemos coxinhas, brigadeiros, cupcakes e bolos sob encomenda.",
-        "Nosso cardápio inclui salgados fresquinhos, doces artesanais e bolos decorados."
+        "Temos um cardápio cheeeio de delícias! 🧁✨ Quer ver nossas opções mais pedidas?",
+        "Aqui temos salgados, doces artesanais e bolos lindíssimos! 🍰💕"
       ]
     },
+
     {
       "tag": "pagamento",
-      "patterns": [
-        "Posso pagar com cartão?",
-        "Vocês aceitam PIX?",
-        "Dá para pagar no crédito?",
-        "Quais formas de pagamento?"
-      ],
+      "patterns": ["Posso pagar com cartão?", "Vocês aceitam PIX?", "Dá para pagar no crédito?", "Quais formas de pagamento?", "Aceita débito?", "Aceita dinheiro?"],
       "responses": [
-        "Aceitamos PIX, cartão de crédito e débito.",
-        "Você pode pagar com dinheiro, cartão ou PIX.",
-        "Temos várias opções de pagamento para facilitar sua compra."
+        "Simmm! Aceitamos PIX, cartão de crédito, débito e dinheirinho! 💳✨",
+        "Pode pagar do jeitinho que preferir, docinho! 🍬🎀"
       ]
     },
+
     {
       "tag": "entrega",
-      "patterns": [
-        "Vocês entregam?",
-        "Como funciona a entrega?",
-        "Qual o prazo de entrega?",
-        "Posso pedir para entregar em casa?"
-      ],
+      "patterns": ["Vocês entregam?", "Como funciona a entrega?", "Qual o prazo de entrega?", "Fazem delivery?", "Entregam na minha região?", "Entrega demora?"],
       "responses": [
-        "Sim, fazemos entregas em São José dos Pinhais e região.",
-        "O prazo de entrega depende do pedido, mas geralmente é de 1 a 2 dias.",
-        "Você pode escolher retirada na loja ou entrega em domicílio."
+        "Simm! Entregamos em São José dos Pinhais e região! 🚚✨",
+        "Levamos seu docinho com todo carinho até você! 🍰💗"
       ]
     },
+
     {
       "tag": "piada",
+      "patterns": ["Me conta uma piada", "Piada", "Algo engraçado", "Me faz rir"],
+      "responses": [
+        "Por que o cupcake não briga? Porque ele é muuuito fofo! 🧁🤣",
+        "O que o brigadeiro falou pro beijinho? ‘A gente combina tanto!’ 😍💕"
+      ]
+    },
+
+    {
+      "tag": "pedido_bolo",
       "patterns": [
-        "Me conta uma piada",
-        "Me fala algo engraçado",
-        "Você sabe alguma piada?"
+        "Quero um bolo de chocolate",
+        "Quero bolo de morango",
+        "Quero comprar um bolo",
+        "Me vê um bolo",
+        "Quero pedir um bolo",
+        "Preciso de um bolo",
+        "Desejo um bolo de aniversário",
+        "Quero bolo recheado",
+        "Quero encomendar um bolo"
       ],
       "responses": [
-        "Por que o bolo foi ao médico? Porque estava se sentindo meio 'recheado' demais!",
-        "Qual é o doce favorito do computador? O cookie!"
+        "Awnn, que delícia! 🍰✨ Qual o tamanho você gostaria? Temos P, M e G! 💖",
+        "Ótima escolha, docinho! 😍 Qual sabor e tamanho você deseja para seu bolo?",
+        "Claro! 💕 Me diz o sabor e o tamanho que faço o orçamento pra você!"
+      ]
+    },
+
+    {
+      "tag": "preco",
+      "patterns": [
+        "Quanto custa?",
+        "Qual o valor?",
+        "Quanto fica?",
+        "Preço do bolo",
+        "Quanto é o bolo de chocolate?",
+        "Qual o preço?",
+        "Quanto vocês cobram?"
+      ],
+      "responses": [
+        "O preço varia conforme o tamanho e o recheio, docinho! 🧁✨ Me diga qual bolo você quer pra eu te passar certinho!",
+        "Pra te dar o valor certinho, me diz o sabor e o tamanho que eu já calculo! 💕"
+      ]
+    },
+
+    {
+      "tag": "sabor_bolo",
+      "patterns": [
+        "Quais sabores vocês têm?",
+        "Sabores de bolo",
+        "Quais recheios?",
+        "Quero saber os sabores",
+        "Opções de sabor"
+      ],
+      "responses": [
+        "Temos muuuitos sabores deliciosos! 😍✨ Chocolate, morango, leitinho, ninho com nutella, cenoura, prestígio e mais! 🍰💕",
+        "Aiii, temos sabores maravilhosos! Quer que eu liste tudinho pra você? 🌸"
+      ]
+    },
+
+    {
+      "tag": "encomenda",
+      "patterns": [
+        "Como faço encomenda?",
+        "Quero encomendar um bolo",
+        "Posso personalizar o bolo?",
+        "Aceitam encomenda?",
+        "Fazem bolo personalizado?",
+        "Como funciona a encomenda?"
+      ],
+      "responses": [
+        "Fazemos simmm! ✨💗 Só me dizer o tamanho, sabor e se quer alguma decoração especial! 🎀🍰",
+        "Sim! Trabalhamos com bolos personalizados! Me conta sua ideia e faço tudinho com carinho! 🧁✨"
       ]
     }
   ]
