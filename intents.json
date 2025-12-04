@@ -2,7 +2,22 @@
   "intents": [
     {
       "tag": "saudacao",
-      "patterns": ["Oi", "Olá", "Hola", "Bom dia", "Boa tarde", "Boa noite", "Tudo bem?", "Como vai?", "E aí?", "Oiii", "Oiie", "Oi docinho"],
+      "patterns": [
+        "Oi", 
+        "Olá", 
+        "Hola", 
+        "Bom dia", 
+        "Boa tarde", 
+        "Boa noite", 
+        "Tudo bem?", 
+        "Como vai?", 
+        "E aí?", 
+        "Eai",
+        "Opa",
+        "Oiii", 
+        "Oiie", 
+        "Oi docinho"
+      ],
       "responses": [
         "Oiiee! Seja super bem-vindo(a) à Beijo Rosado! ✨💗",
         "Oláaa! Que alegria te ver aqui! 🍰💖",
@@ -12,7 +27,18 @@
 
     {
       "tag": "despedida",
-      "patterns": ["Tchau", "Até mais", "Até logo", "Falou", "Flw", "Vlw", "Adeus", "Beijos, tchau", "Até a próxima"],
+      "patterns": [
+        "Tchau", 
+        "Até mais", 
+        "Até logo", 
+        "Falou", 
+        "Flw", 
+        "Vlw", 
+        "Adeus", 
+        "Fui",
+        "Beijos, tchau", 
+        "Até a próxima"
+      ],
       "responses": [
         "Tchauu! Volte sempre que bater aquela vontade de um docinho! 🍰💗",
         "Até mais! Seu dia merece doçura! ✨🥰"
