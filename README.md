@@ -31,6 +31,12 @@ venv\Scripts\activate
 ```
 ### Install PyTorch and dependencies
 
+Use for all dependencies
+```console
+pip install -r requirements.txt
+```
+
+
 For Installation of PyTorch see [official website](https://pytorch.org/).
 
 You also need `nltk`:

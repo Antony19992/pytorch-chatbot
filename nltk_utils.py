@@ -1,10 +1,27 @@
 import numpy as np
 import nltk
 import unicodedata
-# nltk.download('punkt')
 from nltk.stem.porter import PorterStemmer
+
 stemmer = PorterStemmer()
 
+# -------------------------------------------------------------------
+# Garantir que os recursos necessários do NLTK existem no Windows/Linux
+# -------------------------------------------------------------------
+def ensure_nltk_data():
+    packages = ["punkt", "punkt_tab"]
+    for pkg in packages:
+        try:
+            nltk.data.find(f"tokenizers/{pkg}")
+        except LookupError:
+            nltk.download(pkg)
+
+# chama automaticamente ao importar o arquivo
+ensure_nltk_data()
+
+# -------------------------------------------------------------------
+# Funções auxiliares
+# -------------------------------------------------------------------
 def remove_acentos(texto):
     """
     Remove acentos de um texto usando unicodedata.
@@ -37,9 +54,13 @@ def bag_of_words(tokenized_sentence, words):
     """
     # aplica stemming em cada palavra da frase
     sentence_words = [stem(word) for word in tokenized_sentence]
+
     # inicializa vetor com zeros
     bag = np.zeros(len(words), dtype=np.float32)
+
+    # marca as palavras presentes
     for idx, w in enumerate(words):
         if w in sentence_words:
             bag[idx] = 1
+
     return bag
