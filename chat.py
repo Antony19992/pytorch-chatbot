@@ -1,9 +1,11 @@
 import random
 import json
 import re
-import joblib
+import pickle
 import unicodedata
+import torch
 
+from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 
 # Função para remover acentos
@@ -24,13 +26,22 @@ def normalize_text(text):
 with open('intents.json', 'r', encoding='utf-8') as json_data:
     intents = json.load(json_data)
 
-# Carregar modelo treinado
+# Carregar modelo treinado (pickle)
 FILE = "data.pkl"
-data = joblib.load(FILE)
+with open(FILE, "rb") as f:
+    data = pickle.load(f)
 
-model = data["model"]
+input_size = data["input_size"]
+hidden_size = data["hidden_size"]
+output_size = data["output_size"]
 all_words = data["all_words"]
 tags = data["tags"]
+model_state = data["model_state"]
+
+device = torch.device("cpu")
+model = NeuralNet(input_size, hidden_size, output_size).to(device)
+model.load_state_dict(model_state)
+model.eval()
 
 bot_name = "Beijinho"
 print("Olá, em que posso ajudar hoje? (escreva 'quit' para sair)")
@@ -46,14 +57,16 @@ while True:
     # Tokenizar e bag-of-words
     tokens = tokenize(normalized)
     X = bag_of_words(tokens, all_words)
-    X = X.reshape(1, -1)
+    X = X.reshape(1, X.shape[0])
+    X = torch.from_numpy(X).to(device)
 
     # Previsão com modelo
-    predicted = model.predict(X)[0]
-    probas = model.predict_proba(X)[0]
-    prob = max(probas)
+    output = model(X)
+    _, predicted = torch.max(output, dim=1)
+    tag = tags[predicted.item()]
 
-    tag = tags[predicted]
+    probs = torch.softmax(output, dim=1)
+    prob = probs[0][predicted.item()].item()
 
     # Fallback usando intents.json com pontuação
     if prob < 0.75:
@@ -62,14 +75,12 @@ while True:
             score = 0
             for pattern in intent['patterns']:
                 norm_pattern = normalize_text(pattern)
-                # match exato ou parcial
                 if norm_pattern in normalized:
-                    score += len(norm_pattern)  # mais pontos para padrões mais longos
+                    score += len(norm_pattern)
             if score > 0:
                 scores[intent['tag']] = score
 
         if scores:
-            # pega a intent com maior pontuação
             tag = max(scores, key=scores.get)
             prob = 1.0
 
