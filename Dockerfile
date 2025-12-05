@@ -1,59 +1,27 @@
-# -------------------------------------------
-# 1) Imagem base (Python 3.11 para compatibilidade com torch 2.0.1)
-# -------------------------------------------
-    FROM python:3.11-slim
+# Imagem base leve com Python 3.11
+FROM python:3.11-slim
 
-    # Evitar prompts e mensagens desnecessárias
-    ENV DEBIAN_FRONTEND=noninteractive
-    
-    # -------------------------------------------
-    # 2) Instalar dependências do sistema
-    # -------------------------------------------
-    RUN apt-get update && apt-get install -y \
-        build-essential \
-        gcc \
-        && apt-get clean \
-        && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-    
-    # -------------------------------------------
-    # 3) Diretório da aplicação
-    # -------------------------------------------
-    WORKDIR /app
-    
-    # -------------------------------------------
-    # 4) Copiar somente requirements.txt primeiro (cache Docker)
-    # -------------------------------------------
-    COPY requirements.txt .
-    
-    # -------------------------------------------
-    # 5) Atualizar pip e instalar dependências Python
-    # -------------------------------------------
-    RUN pip install --upgrade pip
-    RUN pip install --no-cache-dir -r requirements.txt
-    
-    # -------------------------------------------
-    # 6) Copiar o restante do projeto
-    # -------------------------------------------
-    COPY . .
-    
-    # -------------------------------------------
-    # 7) Baixar recursos do NLTK
-    # -------------------------------------------
-    RUN python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
-    
-    # -------------------------------------------
-    # 8) Rodar o treinamento do modelo
-    # Isso vai gerar o arquivo data.pth dentro da imagem
-    # -------------------------------------------
-    RUN python train.py
-    
-    # -------------------------------------------
-    # 9) Expor porta (caso transforme em API depois)
-    # -------------------------------------------
-    EXPOSE 5000
-    
-    # -------------------------------------------
-    # 10) Comando padrão para iniciar o chatbot
-    # -------------------------------------------
-    CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]
-    
+# Diretório de trabalho
+WORKDIR /app
+
+# Copiar requirements.txt primeiro
+COPY requirements.txt .
+
+# Instalar dependências Python (CPU-only)
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Copiar o restante do projeto
+COPY . .
+
+# Baixar recursos do NLTK
+RUN python -c "import nltk; nltk.download('punkt')"
+
+# Treinar modelo (gera data.pkl)
+RUN python train.py
+
+# Expor porta da API
+EXPOSE 5000
+
+# Iniciar FastAPI com Uvicorn
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]
