@@ -38,11 +38,7 @@
     # -------------------------------------------
     # 7) Baixar recursos do NLTK
     # -------------------------------------------
-    RUN python - <<EOF
-    import nltk
-    nltk.download("punkt")
-    nltk.download("punkt_tab")
-    EOF
+    RUN python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
     
     # -------------------------------------------
     # 8) Rodar o treinamento do modelo
