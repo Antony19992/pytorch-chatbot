@@ -41,23 +41,15 @@ y_train = []
 for (pattern_sentence, tag) in xy:
     bag = bag_of_words(pattern_sentence, all_words)
 
-    # Validação extra para evitar erro de tipo
-    if not isinstance(bag, np.ndarray):
-        print(f"⚠️ bag_of_words retornou tipo inválido para: {pattern_sentence}")
-        continue
+    # Garantir tipo correto
+    bag = np.array(bag, dtype=np.float32)
 
     X_train.append(bag)
     label = tags.index(tag)
     y_train.append(label)
 
-# Verificação final antes de converter
-for i, vec in enumerate(X_train):
-    if not isinstance(vec, np.ndarray):
-        print(f"❌ X_train[{i}] não é np.ndarray: {vec}")
-        raise TypeError("Erro de tipo em X_train")
-
 X_train = np.array(X_train, dtype=np.float32)
-y_train = np.array(y_train)
+y_train = np.array(y_train, dtype=np.int64)
 
 class ChatDataset(Dataset):
     def __init__(self):
@@ -66,7 +58,8 @@ class ChatDataset(Dataset):
         self.y_data = y_train
 
     def __getitem__(self, index):
-        return self.x_data[index], self.y_data[index]
+        # Retorna tensores já com dtype correto
+        return torch.from_numpy(self.x_data[index]), torch.tensor(self.y_data[index], dtype=torch.long)
 
     def __len__(self):
         return self.n_samples
@@ -99,7 +92,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 for epoch in range(num_epochs):
     for (words, labels) in train_loader:
         words = words.to(device)
-        labels = labels.to(dtype=torch.long).to(device)
+        labels = labels.to(device)
 
         outputs = model(words)
         loss = criterion(outputs, labels)
