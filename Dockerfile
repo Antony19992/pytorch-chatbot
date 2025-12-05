@@ -13,7 +13,7 @@
         build-essential \
         gcc \
         && apt-get clean \
-        && rm -rf /var/lib/apt/lists/*
+        && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
     
     # -------------------------------------------
     # 3) Diretório da aplicação
@@ -26,7 +26,7 @@
     COPY requirements.txt .
     
     # -------------------------------------------
-    # 5) Instalar dependências Python
+    # 5) Instalar dependências Python (apenas essenciais)
     # -------------------------------------------
     RUN pip install --no-cache-dir -r requirements.txt
     
