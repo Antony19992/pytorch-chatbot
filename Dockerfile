@@ -55,5 +55,5 @@
     # -------------------------------------------
     # 10) Comando padrão para iniciar o chatbot
     # -------------------------------------------
-    CMD ["python", "chat.py"]
+    CMD ["python", "app.py"]
     
