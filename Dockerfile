@@ -1,7 +1,7 @@
 # -------------------------------------------
-# 1) Imagem base
+# 1) Imagem base (Python 3.11 para compatibilidade com torch 2.0.1)
 # -------------------------------------------
-    FROM python:3.12-slim
+    FROM python:3.11-slim
 
     # Evitar prompts e mensagens desnecessárias
     ENV DEBIAN_FRONTEND=noninteractive
@@ -26,10 +26,10 @@
     COPY requirements.txt .
     
     # -------------------------------------------
-    # 5) Instalar dependências Python (inclui torch CPU)
+    # 5) Atualizar pip e instalar dependências Python
     # -------------------------------------------
-    RUN pip install --no-cache-dir -r requirements.txt \
-        -f https://download.pytorch.org/whl/torch_stable.html
+    RUN pip install --upgrade pip
+    RUN pip install --no-cache-dir -r requirements.txt
     
     # -------------------------------------------
     # 6) Copiar o restante do projeto
