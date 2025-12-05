@@ -26,9 +26,10 @@
     COPY requirements.txt .
     
     # -------------------------------------------
-    # 5) Instalar dependências Python (apenas essenciais)
+    # 5) Instalar dependências Python (inclui torch CPU)
     # -------------------------------------------
-    RUN pip install --no-cache-dir -r requirements.txt
+    RUN pip install --no-cache-dir -r requirements.txt \
+        -f https://download.pytorch.org/whl/torch_stable.html
     
     # -------------------------------------------
     # 6) Copiar o restante do projeto
