@@ -9,7 +9,9 @@ import pickle
 from model import NeuralNet
 from nltk_utils import tokenize, stem, bag_of_words
 
-# Carregar intents
+# ---------------------
+# Carregar intents.json
+# ---------------------
 with open('intents.json', 'r', encoding='utf-8') as f:
     intents = json.load(f)
 
@@ -30,16 +32,31 @@ all_words = [stem(w) for w in all_words if w not in ignore_words]
 all_words = sorted(set(all_words))
 tags = sorted(set(tags))
 
+# ---------------------
+# Preparar dados de treino
+# ---------------------
 X_train = []
 y_train = []
 
 for (pattern_sentence, tag) in xy:
     bag = bag_of_words(pattern_sentence, all_words)
+
+    # Validação extra para evitar erro de tipo
+    if not isinstance(bag, np.ndarray):
+        print(f"⚠️ bag_of_words retornou tipo inválido para: {pattern_sentence}")
+        continue
+
     X_train.append(bag)
     label = tags.index(tag)
     y_train.append(label)
 
-X_train = np.array(X_train)
+# Verificação final antes de converter
+for i, vec in enumerate(X_train):
+    if not isinstance(vec, np.ndarray):
+        print(f"❌ X_train[{i}] não é np.ndarray: {vec}")
+        raise TypeError("Erro de tipo em X_train")
+
+X_train = np.array(X_train, dtype=np.float32)
 y_train = np.array(y_train)
 
 class ChatDataset(Dataset):
@@ -54,7 +71,9 @@ class ChatDataset(Dataset):
     def __len__(self):
         return self.n_samples
 
+# ---------------------
 # Hiperparâmetros
+# ---------------------
 batch_size = 8
 hidden_size = 8
 output_size = len(tags)
@@ -63,7 +82,10 @@ learning_rate = 0.001
 num_epochs = 1000
 
 dataset = ChatDataset()
-train_loader = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=0)
+train_loader = DataLoader(dataset=dataset,
+                          batch_size=batch_size,
+                          shuffle=True,
+                          num_workers=0)
 
 device = torch.device('cpu')
 model = NeuralNet(input_size, hidden_size, output_size).to(device)
@@ -71,7 +93,9 @@ model = NeuralNet(input_size, hidden_size, output_size).to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
+# ---------------------
 # Treinamento
+# ---------------------
 for epoch in range(num_epochs):
     for (words, labels) in train_loader:
         words = words.to(device)
@@ -89,7 +113,9 @@ for epoch in range(num_epochs):
 
 print(f'Final loss: {loss.item():.4f}')
 
+# ---------------------
 # Salvar modelo com pickle
+# ---------------------
 data = {
     "input_size": input_size,
     "hidden_size": hidden_size,
@@ -102,4 +128,4 @@ data = {
 with open("data.pkl", "wb") as f:
     pickle.dump(data, f)
 
-print("Treinamento concluído. Modelo salvo em data.pkl")
+print("✅ Treinamento concluído. Modelo salvo em data.pkl")
