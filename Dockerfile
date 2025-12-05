@@ -1,27 +1,27 @@
-# Imagem base leve com Python 3.11
+# Usa imagem leve do Python
 FROM python:3.11-slim
 
-# Diretório de trabalho
+# Define diretório de trabalho
 WORKDIR /app
 
-# Copiar requirements.txt primeiro
+# Copia dependências
 COPY requirements.txt .
 
-# Instalar dependências Python (CPU-only)
+# Instala dependências
 RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
-# Copiar o restante do projeto
+# Copia o restante do código
 COPY . .
 
-# Baixar recursos do NLTK
+# Baixa dados do NLTK
 RUN python -c "import nltk; nltk.download('punkt')"
 
-# Treinar modelo (gera data.pkl)
+# Roda o treinamento (gera data.pkl)
 RUN python train.py
 
-# Expor porta da API
+# Expõe a porta usada pelo Uvicorn
 EXPOSE 5000
 
-# Iniciar FastAPI com Uvicorn
+# Inicia a API FastAPI
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5000"]
