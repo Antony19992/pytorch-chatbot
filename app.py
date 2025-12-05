@@ -3,21 +3,20 @@ from pydantic import BaseModel
 import torch
 import random
 import json
+import pickle
 
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 
-# ---------------------
-# Carregamento do modelo
-# ---------------------
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cpu')
 
 with open('intents.json', 'r', encoding='utf-8') as json_data:
     intents = json.load(json_data)
 
-FILE = "data.pth"
-data = torch.load(FILE, map_location=device)
+# Carregar modelo salvo com pickle
+FILE = "data.pkl"
+with open(FILE, "rb") as f:
+    data = pickle.load(f)
 
 input_size = data["input_size"]
 hidden_size = data["hidden_size"]
@@ -32,10 +31,6 @@ model.eval()
 
 bot_name = "Beijinho"
 
-# ---------------------
-# FastAPI
-# ---------------------
-
 app = FastAPI()
 
 class ChatMessage(BaseModel):
@@ -48,14 +43,11 @@ def root():
 @app.post("/chat")
 def chat(msg: ChatMessage):
     sentence = msg.message
-
-    # Pré-processamento
     tokenized = tokenize(sentence)
     X = bag_of_words(tokenized, all_words)
     X = X.reshape(1, X.shape[0])
     X = torch.from_numpy(X).to(device)
 
-    # Predição
     output = model(X)
     _, predicted = torch.max(output, dim=1)
     tag = tags[predicted.item()]
@@ -63,7 +55,6 @@ def chat(msg: ChatMessage):
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
 
-    # Resposta do bot
     if prob.item() > 0.75:
         for intent in intents["intents"]:
             if tag == intent["tag"]:
