@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import torch
 import random
@@ -11,7 +12,8 @@ from nltk_utils import bag_of_words, tokenize
 # Carregamento do modelo
 # ---------------------
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# Força CPU para evitar overhead de CUDA em ambientes cloud
+device = torch.device('cpu')
 
 with open('intents.json', 'r', encoding='utf-8') as json_data:
     intents = json.load(json_data)
@@ -38,6 +40,14 @@ bot_name = "Beijinho"
 
 app = FastAPI()
 
+# ✅ Correção: habilitar CORS para permitir chamadas do front (Firebase, etc.)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # em produção, substitua por ["https://chat-beijinho.web.app"]
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class ChatMessage(BaseModel):
     message: str
 
@@ -55,13 +65,13 @@ def chat(msg: ChatMessage):
     X = X.reshape(1, X.shape[0])
     X = torch.from_numpy(X).to(device)
 
-    # Predição
-    output = model(X)
-    _, predicted = torch.max(output, dim=1)
-    tag = tags[predicted.item()]
-
-    probs = torch.softmax(output, dim=1)
-    prob = probs[0][predicted.item()]
+    # ✅ Manobra de memória: desativa gradientes
+    with torch.no_grad():
+        output = model(X)
+        _, predicted = torch.max(output, dim=1)
+        tag = tags[predicted.item()]
+        probs = torch.softmax(output, dim=1)
+        prob = probs[0][predicted.item()]
 
     # Resposta do bot
     if prob.item() > 0.75:
